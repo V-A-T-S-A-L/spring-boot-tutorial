@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { listEmployees } from '../services/EmployeeService'
 
 const ListEmp = () => {
 
-    const dummy = [
-        {
-            "id": 1,
-            "firstName": "Vatsal",
-            "lastName": "Shah",
-            "email": "v@gmail.com"
-        }
-    ]
+    const [employees, setEmployees] = useState([])
+
+    useEffect(() => {
+        listEmployees().then((response) => {
+            setEmployees(response.data);
+        }).catch(error => {
+            console.error(error);
+        })
+    }, [])
 
     return (
         <div>
@@ -24,7 +26,7 @@ const ListEmp = () => {
                     </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                    {dummy.map((employee) => (
+                    {employees.map((employee) => (
                         <tr key={employee.id} className="hover:bg-gray-100 transition-colors">
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{employee.id}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{employee.firstName}</td>
